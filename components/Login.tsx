@@ -23,9 +23,9 @@ const Login = () => {
     }
   };
 
-  console.log(password, username, isRemembered);
+
   return (
-    <div className="w-full sm:w-3/4 md:w-3/5 lg:w-1/2 min-h-full pt-4 rounded-xl border-t-[5px] border-t-[#7e81f8] shadow-md sm:mb-2 mb-10 ">
+    <div className="min-w-full sm:min-w-3/5 md:min-w-3/5 lg:w-3/5 min-h-full pt-5 rounded-xl border-t-[5px] border-t-[#7e81f8] bg-white shadow-md mb-10 sm:mb-2 ">
       <LoginHeader />
       <LoginForm setPassword={setPassword} setUsername={setUsername} />
       <LoginCaptcha />
@@ -47,7 +47,7 @@ const Login = () => {
         </div>
         <button
           onClick={() => handleLogin()}
-          className="w-3/10 max-w-md p-3 bg-[#7e81f8] text-white hover:text-black text-md rounded-md hover:bg-gray-100 cursor-pointer transition duration-200"
+          className="w-1/4 max-w-md p-3 bg-[#7e81f8] text-white hover:text-black text-md rounded-md hover:bg-gray-100 cursor-pointer transition duration-200"
         >
           LOGIN
         </button>

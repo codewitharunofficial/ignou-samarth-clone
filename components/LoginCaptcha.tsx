@@ -1,6 +1,12 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 const LoginCaptcha = () => {
+  const [captchaTouched, setCaptchaTouched] = useState(false);
+  const [captchaValue, updateCaptchaValue] = useState("");
+
+  const showCaptchaError = captchaTouched && captchaValue.trim() === "";
+
   return (
     <div className="flex flex-row gap-5 m-5">
       <div className="w-full max-w-md p-2 flex flex-col items-center">
@@ -22,9 +28,18 @@ const LoginCaptcha = () => {
           id="captcha"
           name="captcha"
           type="text"
-          className="mt-1 block w-full border border-gray-200 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7e81f8] focus:border-transparent"
+          className={`mt-1 block w-full border border-gray-200 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7e81f8] focus:border-transparent ${
+            showCaptchaError ? "border border-red-500" : ""
+          }`}
           placeholder="Enter Captcha"
+          onChange={(e) => {
+            updateCaptchaValue(e.target.value);
+          }}
+          onBlur={() => setCaptchaTouched(true)}
         />
+        {showCaptchaError && (
+          <p className="text-red-500 text-sm mt-1">Captcha cannot be blank.</p>
+        )}
       </div>
     </div>
   );
