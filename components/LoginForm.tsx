@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-const LoginForm = ({ setUsername, setPassword }) => {
+interface LoginFormProps {
+  setUsername: (username: string) => void;
+  setPassword: (password: string) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ setUsername, setPassword }) => {
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
   const [usernameValue, updateUsernameValue] = useState("");
