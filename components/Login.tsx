@@ -13,16 +13,13 @@ const Login = () => {
   const router = useRouter();
 
   const handleLogin = () => {
-    // Perform login logic here
-    // On successful login, redirect to the desired page
     if (username && password) {
       alert("Login successful!");
-      router.push("/home");
+      router.push("/dashboard");
     } else {
       alert("Please enter both username and password.");
     }
   };
-
 
   return (
     <div className="min-w-full sm:min-w-3/5 md:min-w-3/5 lg:w-3/5 min-h-full pt-5 rounded-xl border-t-[5px] border-t-[#7e81f8] bg-white shadow-md mb-10 sm:mb-2 ">
