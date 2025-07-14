@@ -8,7 +8,7 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav className="w-full bg-[rgb(5,44,101)] flex flex-row flex-wrap items-center justify-between p-1 px-4">
+    <nav className="fixed top-0 w-full bg-[rgb(5,44,101)] flex flex-row flex-wrap items-center justify-between px-4 py-1">
       <div className="flex flex-row gap-1 items-center ">
         <img
           onClick={() => router.push("/")}
