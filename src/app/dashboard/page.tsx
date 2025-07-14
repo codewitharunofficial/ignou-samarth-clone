@@ -3,30 +3,27 @@ import React from "react";
 import Navbar from "../../../components/Navbar";
 import SideBar from "../../../components/SideBar";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
+import Main from "../../../components/Main";
+import SmallFooter from "../../../components/SmallFooter";
 
 const page = () => {
   const [showSidebar, setShowSidebar] = React.useState(true);
   return (
-    <div className="flex w-full h-screen">
-      <main className="flex-1 flex-row gap-10">
-        <Navbar />
+    <div className="block w-screen h-screen">
+      <Navbar />
+      <main className="grid grid-cols-1 sm:grid-cols-[200px_1fr] lg:grid-cols-[250px_1fr] overflow-hidden">
         {showSidebar ? (
           <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         ) : (
           <IoArrowForwardCircleOutline
             onClick={() => setShowSidebar(!showSidebar)}
-            className="fixed left-10 cursor-pointer mt-4 "
+            className="fixed left-10 top-32 cursor-pointer mt-4"
             size={24}
             color="#7e81f8"
           />
         )}
-        <div className="flex-1 p-4 itemns-center justify-center float-right">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="mt-2 text-gray-600">
-            Welcome to the dashboard! Here you can manage your settings and
-            preferences.
-          </p>
-        </div>
+       <Main />
+       <SmallFooter />
       </main>
     </div>
   );
