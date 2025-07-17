@@ -1,16 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/app/lib/mongodb";
 import flat from "@/app/lib/models/flat";
+import mongoose from "mongoose";
 
-// GET /api/flat/[id]
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_req, { params }) {
   try {
     await connectToDatabase();
 
-    const flatData = await flat.findById(params.id); // ✅ params.id is safe here
+    const { id } = params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid flat ID" },
+        { status: 400 }
+      );
+    }
+
+    const flatData = await flat.findById(id);
 
     if (!flatData) {
       return NextResponse.json(
@@ -26,7 +32,7 @@ export async function GET(
   } catch (error) {
     console.error("GET Flat Error:", error);
     return NextResponse.json(
-      { success: false, error: "Something went wrong" },
+      { success: false, error: "Server error" },
       { status: 500 }
     );
   }

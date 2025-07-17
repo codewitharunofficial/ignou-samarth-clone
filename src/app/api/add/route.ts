@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/app/lib/mongodb";
-import FlatDetail from "@/app/lib/models/flats";
+import FlatDetail from "@/app/lib/models/flat";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

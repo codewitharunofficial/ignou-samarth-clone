@@ -12,7 +12,7 @@ const UpdateFlat = () => {
   const { id } = useParams();
   const [flat, setFlat] = useState<any>(null);
   const [vacant, setVacant] = useState(false);
-  const [occupationDate, setOccupationDate] = useState("");
+  const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const UpdateFlat = () => {
         const data = res.data.flat;
         setFlat(data);
         setVacant(data.vacant || false);
-        setOccupationDate(data.occupationDate || "");
+        setDate(data.date || "");
       } catch (error) {
         console.error("Failed to fetch flat:", error);
       }
@@ -44,7 +44,7 @@ const UpdateFlat = () => {
       designation: newVacant ? "" : prev.designation || "",
       odlId: newVacant ? "" : prev.odlId || "",
     }));
-    if (newVacant) setOccupationDate("");
+    if (newVacant) setDate("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,7 +59,7 @@ const UpdateFlat = () => {
       division: flat.division || "",
       flatNo: flat.flatNo || "",
       block: flat.block || "",
-      occupationDate: vacant ? "" : occupationDate || "",
+      date: vacant ? "" : date || "",
       category: flat.category || "",
       change: flat.change || "",
       remarks: flat.remarks || "",
@@ -211,14 +211,14 @@ const UpdateFlat = () => {
         </div>
 
         <div>
-          <Label className="m-2" htmlFor="occupationDate">
-            Date of Occupation
+          <Label className="m-2" htmlFor="date">
+            {vacant ? "Date of Vacation" : "Date of Occupation"}
           </Label>
           <Input
-            id="occupationDate"
+            id="date"
             type="date"
-            value={occupationDate}
-            onChange={(e) => setOccupationDate(e.target.value)}
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
             disabled={vacant}
             required={!vacant}
           />

@@ -1,18 +1,24 @@
 import { connectToDatabase } from "@/app/lib/mongodb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import Flat from "@/app/lib/models/flat";
+import mongoose from "mongoose";
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request, { params }) {
   try {
     await connectToDatabase();
     const { id } = params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid ID format" },
+        { status: 400 }
+      );
+    }
+
     const body = await request.json();
     console.log("body: ", body);
 
-    // Enforce vacant logic: if vacant is true, set name, designation, and odlId to ""
+    // Enforce vacant logic
     if (body.vacant === true) {
       body.name = "";
       body.designation = "";
