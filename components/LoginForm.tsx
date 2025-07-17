@@ -17,19 +17,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ setUsername, setPassword }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-8 p-8 bg-white">
       <div className="w-full max-w-md p-2">
-        <label htmlFor="username" className="block text-sm">
-          Username <span className="text-red-500">*</span>
+        <label htmlFor="userId" className="block text-sm">
+          User ID <span className="text-red-500">*</span>
         </label>
         <input
-          id="username"
-          name="username"
+          id="userId"
+          name="userId"
           type="text"
           className={`mt-1 block w-full rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7e81f8] ${
             showUsernameError
               ? "border border-red-500"
               : "border border-gray-200 focus:border-transparent"
           }`}
-          placeholder="Username"
+          placeholder="User ID"
           value={usernameValue}
           onChange={(e) => {
             updateUsernameValue(e.target.value);
@@ -38,7 +38,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setUsername, setPassword }) => {
           onBlur={() => setUsernameTouched(true)}
         />
         {showUsernameError && (
-          <p className="text-red-500 text-sm mt-1">Username cannot be blank.</p>
+          <p className="text-red-500 text-sm mt-1">User ID cannot be blank.</p>
         )}
       </div>
 

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "MGRC",
+    "location": "Mahatma Gandhi National Council of Rural Education",
+    "types": ["Type-I", "Type-II", "Type-III", "Type-IV", "Type-V"]
+  },
+  {
+    "name": "AGVC",
+    "location": "Mahatma Gandhi National Council of Rural Education",
+    "types": ["Type-IV", "Type-V"]
+  },
+  {
+    "name": "MGRC",
+    "location": "Mahatma Gandhi National Council of Rural Education",
+    "types": ["Type-III"]
+  }
+]

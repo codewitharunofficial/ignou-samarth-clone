@@ -11,7 +11,7 @@ const SideBar = ({ showSidebar, setShowSidebar }: SideBarProps) => {
     <div
       className={`${
         showSidebar ? "sm:block" : "sm:hidden"
-      } hidden w-64 h-screen bg-white text-black p-4 shadow-md`}
+      } hidden w-64 min-h-screen h-auto bg-white text-black p-4 shadow-md`}
     >
       <IoArrowBackCircleOutline
         onClick={() => setShowSidebar(!showSidebar)}

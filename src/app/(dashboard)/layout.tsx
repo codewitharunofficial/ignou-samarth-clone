@@ -1,13 +1,30 @@
+// app/(dashboard)/layout.tsx
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import SideBar from "../../../components/SideBar";
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
-import Main from "../../../components/Main";
 import SmallFooter from "../../../components/SmallFooter";
+import { IoArrowForwardCircleOutline } from "react-icons/io5";
+import { Geist, Geist_Mono } from "next/font/google";
 
-const page = () => {
-  const [showSidebar, setShowSidebar] = React.useState(true);
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [showSidebar, setShowSidebar] = useState(true);
+
   return (
     <div className="block w-screen h-full">
       <Navbar />
@@ -22,11 +39,9 @@ const page = () => {
             color="#7e81f8"
           />
         )}
-       <Main />
-       <SmallFooter />
+        <div className="min-h-screen px-4 pt-4">{children}</div>
+        <SmallFooter />
       </main>
     </div>
   );
-};
-
-export default page;
+}
