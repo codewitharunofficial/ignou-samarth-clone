@@ -90,7 +90,11 @@ const UpdateFlat = () => {
 
       <div className="flex items-center justify-between">
         <Label className="m-2">Mark as Vacant</Label>
-        <Switch checked={vacant} onCheckedChange={handleVacantToggle} />
+        <Switch
+          className="cursor-pointer"
+          checked={vacant}
+          onCheckedChange={handleVacantToggle}
+        />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -215,17 +219,25 @@ const UpdateFlat = () => {
             {vacant ? "Date of Vacation" : "Date of Occupation"}
           </Label>
           <Input
+            className="cursor-pointer"
             id="date"
             type="date"
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => {
+              setDate(e.target.value);
+            }}
             disabled={vacant}
             required={!vacant}
+            placeholder="YYYY-MM-DD"
           />
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button
+        type="submit"
+        className="w-full cursor-pointer bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
+        disabled={loading}
+      >
         {loading ? "Updating..." : "Update Flat"}
       </Button>
     </form>

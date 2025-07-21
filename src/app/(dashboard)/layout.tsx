@@ -34,12 +34,12 @@ export default function DashboardLayout({
         ) : (
           <IoArrowForwardCircleOutline
             onClick={() => setShowSidebar(!showSidebar)}
-            className="fixed left-10 top-22 cursor-pointer mt-4"
+            className="fixed left-10 top-22 cursor-pointer mt-5"
             size={24}
             color="#7e81f8"
           />
         )}
-        <div className="min-h-screen px-4 pt-4">{children}</div>
+        <div className="min-h-screen sm:px-4 pt-4">{children}</div>
         <SmallFooter />
       </main>
     </div>

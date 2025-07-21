@@ -5,6 +5,7 @@ import Card from "./Card";
 import FlatForm from "./AddFlatForm";
 import FlatList from "./FlatsList";
 import UpdateFlat from "./UpdateFlat";
+import { Button } from "@/components/ui/button";
 
 const Main = () => {
   const pathname = usePathname();
@@ -13,6 +14,10 @@ const Main = () => {
   const pathParts = pathname.split("/").filter(Boolean); // removes empty strings
   const currentRoute = `/${pathParts[0] || ""}`;
   const flatId = pathParts[1]; // if route is /update-flats/[id]
+
+  const download = (format: string) => {
+    window.open(`/api/export-data?format=${format}`, "_blank");
+  };
 
   const renderContent = () => {
     if (currentRoute === "/") {
@@ -41,6 +46,18 @@ const Main = () => {
       return (
         <div className="w-screen bg-white p-4 shadow pb-4">
           <h1 className="text-lg font-semibold mb-2">Flat Listings</h1>
+          <Button
+            className="sm:bg-green-200 sm:hover:bg-green-500 bg-green-500 text-white py-1 px-2 rounded-md mb-4 cursor-pointer transition duration-200 m-2"
+            onClick={() => download("excel")}
+          >
+            Export Data As Excel
+          </Button>
+          <Button
+            className="sm:bg-red-200 sm:hover:bg-red-500 bg-red-500 text-white py-1 px-2 rounded-md mb-4 cursor-pointer transition duration-200 m-2"
+            onClick={() => download("pdf")}
+          >
+            Export Data As PDF
+          </Button>
           <FlatList />
         </div>
       );

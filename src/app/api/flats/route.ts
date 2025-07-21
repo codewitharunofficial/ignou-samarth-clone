@@ -16,7 +16,7 @@ export async function GET(req: Request) {
 
     if (campus) filters.campus = campus;
     if (type) filters.type = type;
-    if (block) filters["Flat No."] = { $regex: `^${block}`, $options: "i" };
+    if (block) filters.block = { $regex: `^${block}`, $options: "i" };
 
     await connectToDatabase();
 

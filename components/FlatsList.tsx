@@ -82,7 +82,7 @@ const FlatList = () => {
   const totalPages = Math.ceil(total / 10);
 
   return (
-    <div className="p-4 max-w-screen-xl mx-auto">
+    <div className="sm:p-4 max-w-screen-xl sm:mx-auto pb-16">
       <h2 className="text-2xl font-bold mb-4">Flat Listings</h2>
 
       {/* Filters */}
@@ -167,7 +167,7 @@ const FlatList = () => {
               <CardContent className="p-4 relative">
                 <button
                   onClick={() => router.push(`/update-flat/${flat._id}`)}
-                  className="absolute top-3 right-3 text-muted-foreground hover:text-primary cursor-pointer"
+                  className="absolute top-4 right-3 text-white cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-full p-1 transition duration-200"
                 >
                   <Pencil size={18} />
                 </button>
@@ -193,6 +193,8 @@ const FlatList = () => {
               </CardContent>
             </Card>
           ))
+        ) : loading ? (
+          <p>Loading flats...</p>
         ) : (
           <p>No flats found for the selected filters.</p>
         )}
