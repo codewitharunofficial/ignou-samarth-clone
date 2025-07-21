@@ -10,7 +10,7 @@ const Navbar = () => {
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLLIElement>(null);
   const [user, setUser] = useState<{ userId: string; role: string } | null>(
     null
   );
