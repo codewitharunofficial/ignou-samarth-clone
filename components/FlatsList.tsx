@@ -194,9 +194,11 @@ const FlatList = () => {
             </Card>
           ))
         ) : loading ? (
-          <p>Loading flats...</p>
+          <p className="text-center">Loading flats...</p>
         ) : (
-          <p>No flats found for the selected filters.</p>
+          <p className="text-center">
+            No flats found for the selected filters.
+          </p>
         )}
       </div>
 

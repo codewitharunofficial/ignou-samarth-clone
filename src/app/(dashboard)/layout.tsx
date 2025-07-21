@@ -34,7 +34,7 @@ export default function DashboardLayout({
         ) : (
           <IoArrowForwardCircleOutline
             onClick={() => setShowSidebar(!showSidebar)}
-            className="fixed left-10 top-22 cursor-pointer mt-5"
+            className="fixed left-10 top-22 cursor-pointer mt-8"
             size={24}
             color="#7e81f8"
           />
