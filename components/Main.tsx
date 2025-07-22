@@ -23,7 +23,7 @@ const Main = () => {
     if (currentRoute === "/") {
       return (
         <>
-          <div className="w-screen bg-white shadow-sm p-4">
+          <div className="w-screen bg-white sm:shadow-sm p-4">
             <h1 className="text-xs font-bold">Dashboard</h1>
           </div>
           <div className="flex flex-wrap items-center p-4">
@@ -44,7 +44,7 @@ const Main = () => {
 
     if (currentRoute === "/flats") {
       return (
-        <div className="w-screen bg-white p-4 shadow pb-4">
+        <div className="w-screen bg-white p-4 sm:shadow pb-4">
           <h1 className="text-lg font-semibold mb-2">Flat Listings</h1>
           <Button
             className="sm:bg-green-200 sm:hover:bg-green-500 bg-green-500 text-white py-1 px-2 rounded-md mb-4 cursor-pointer transition duration-200 m-2"

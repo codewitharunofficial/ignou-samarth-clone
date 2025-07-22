@@ -29,8 +29,9 @@ export default function DashboardLayout({
     <div className="block w-screen h-full">
       <Navbar />
       <main className="grid grid-cols-1 sm:grid-cols-[200px_1fr] lg:grid-cols-[250px_1fr] overflow-hidden mt-12">
-        {showSidebar ? (
-          <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+        {/* {showSidebar ? (
+          // <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+          null
         ) : (
           <IoArrowForwardCircleOutline
             onClick={() => setShowSidebar(!showSidebar)}
@@ -38,7 +39,7 @@ export default function DashboardLayout({
             size={24}
             color="#7e81f8"
           />
-        )}
+        )} */}
         <div className="min-h-screen sm:px-4 pt-4">{children}</div>
         <SmallFooter />
       </main>
