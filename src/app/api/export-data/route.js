@@ -11,9 +11,9 @@ let args;
 let headless;
 
 if (isProd) {
-  const chromium = (await import("@sparticuz/chromium")).default;
+  const chromium = (await import("@sparticuz/chromium"));
   puppeteer = await import("puppeteer-core");
-  executablePath = await chromium.executablePath;
+  executablePath = await chromium.executablePath();
   args = chromium.args;
   headless = chromium.headless;
 } else {
