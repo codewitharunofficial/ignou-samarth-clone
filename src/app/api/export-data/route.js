@@ -2,25 +2,16 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/app/lib/mongodb";
 import Flat from "@/app/lib/models/flat";
 import ExcelJS from "exceljs";
+import chromium from "@sparticuz/chromium";
 
 const isProd = process.env.NODE_ENV === "production";
 
 let puppeteer;
-let executablePath;
-let args;
-let headless;
 
 if (isProd) {
-  const chromium = (await import("@sparticuz/chromium"));
   puppeteer = await import("puppeteer-core");
-  executablePath = await chromium.executablePath();
-  args = chromium.args;
-  headless = chromium.headless;
 } else {
   puppeteer = await import("puppeteer");
-  executablePath = undefined;
-  args = [];
-  headless = true;
 }
 
 export async function GET(req) {
@@ -206,9 +197,16 @@ export async function GET(req) {
       `;
 
       const browser = await puppeteer.launch({
-        executablePath,
-        headless,
-        args,
+        args:
+          process.env.NODE_ENV === "production"
+            ? [...chromium.args]
+            : [...puppeteer.defaultArgs()],
+        executablePath:
+          process.env.NODE_ENV === "production"
+            ? await chromium.executablePath()
+            : puppeteer.executablePath(),
+        headless:
+          process.env.NODE_ENV === "production" ? chromium.headless : true,
       });
 
       const page = await browser.newPage();
