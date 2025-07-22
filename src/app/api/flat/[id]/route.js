@@ -18,6 +18,8 @@ export async function GET(_req, { params }) {
 
     const flatData = await flat.findById(id);
 
+    console.log(flatData);
+
     if (!flatData) {
       return NextResponse.json(
         { success: false, error: "Flat not found" },

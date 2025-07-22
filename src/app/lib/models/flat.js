@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const flatSchema = new mongoose.Schema(
   {
-    nameOfAllottee: {
+    name: {
       type: String,
       required: true,
       trim: true,
@@ -28,7 +28,7 @@ const flatSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    dateOfOccupationVacation: {
+    date: {
       type: String,
       required: true,
     },

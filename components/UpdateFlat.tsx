@@ -53,6 +53,7 @@ const UpdateFlat = () => {
 
     // Create updatedData with all fields from flat state
     const updatedData = {
+      id: flat._id,
       name: vacant ? "" : flat.name || "",
       odlId: vacant ? "" : flat.odlId || "",
       designation: vacant ? "" : flat.designation || "",
@@ -69,8 +70,11 @@ const UpdateFlat = () => {
     };
 
     try {
-      await axios.put(`/api/update-flat/${id}`, updatedData);
-      alert("Flat updated successfully!");
+      const { data } = await axios.put(`/api/update-flat/${id}`, updatedData);
+      if (data?.success) {
+        setFlat(data?.updated);
+        alert("Flat updated successfully!");
+      }
     } catch (err) {
       console.error("Update failed:", err);
     } finally {
@@ -84,7 +88,7 @@ const UpdateFlat = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl mx-auto bg-white p-6 rounded shadow-md space-y-6"
+      className="w-full max-w-2xl mx-auto bg-white p-6 rounded shadow-md space-y-6 mb-16"
     >
       <h2 className="text-xl font-bold text-gray-800">Update Flat</h2>
 
@@ -222,13 +226,13 @@ const UpdateFlat = () => {
             className="cursor-pointer"
             id="date"
             type="date"
-            value={date}
+            value={date?.split("-").reverse().join("-")}
             onChange={(e) => {
               setDate(e.target.value);
             }}
             disabled={vacant}
             required={!vacant}
-            placeholder="YYYY-MM-DD"
+            placeholder={date}
           />
         </div>
       </div>

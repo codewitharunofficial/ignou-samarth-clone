@@ -16,7 +16,7 @@ export async function PUT(request, { params }) {
     }
 
     const body = await request.json();
-    console.log("body: ", body);
+    // console.log("body: ", body);
 
     // Enforce vacant logic
     if (body.vacant === true) {
@@ -26,15 +26,15 @@ export async function PUT(request, { params }) {
     }
 
     const updated = await Flat.findByIdAndUpdate(
-      id,
-      { $set: body },
+      { _id: id },
+      { ...body, date: body.date?.split("-").reverse().join("-") },
       {
         new: true,
         runValidators: true,
       }
     );
 
-    console.log("Updated flat: ", updated);
+    // console.log("Updated flat: ", updated);
 
     if (!updated) {
       return NextResponse.json(

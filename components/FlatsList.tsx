@@ -155,7 +155,7 @@ const FlatList = () => {
             setPage(1);
           }}
         >
-          Reset
+          Reset Filters
         </Button>
       </div>
 
