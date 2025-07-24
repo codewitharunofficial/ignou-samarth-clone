@@ -3,121 +3,91 @@
 import React, { useEffect, useState } from "react";
 import { fetchCampuses, fetchTypes } from "../ApiCalls/apicalls";
 
-interface Option {
+interface CampusOption {
   _id: string;
   name: string;
+  types?: string[]; // Assuming each campus can have an array of string types
 }
 
-const FlatForm = () => {
-  const [campuses, setCampuses] = useState<Option[]>([]);
-  const [types, setTypes] = useState<Option[]>([]);
-  const [blocks, setBlocks] = useState<Option[]>([]);
-  const [flats, setFlats] = useState<Option[]>([]);
+interface FlatFormData {
+  campus: string;
+  type: string;
+  block: string;
+  flatNo: string;
+  name: string;
+  odlId: string;
+  designation: string;
+  division: string;
+  date: string;
+  category: string;
+  change: string;
+  remarks: string;
+}
 
-  const [formData, setFormData] = useState({
+const FlatForm: React.FC = () => {
+  const [campuses, setCampuses] = useState<CampusOption[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [formData, setFormData] = useState<FlatFormData>({
     campus: "",
     type: "",
     block: "",
-    flat: "",
+    flatNo: "",
     name: "",
     odlId: "",
     designation: "",
     division: "",
-    occupationDate: "",
+    date: "",
     category: "",
     change: "",
     remarks: "",
   });
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Fetch campuses on load
   useEffect(() => {
     fetchCampuses()
       .then((data) => {
         setCampuses(data.campuses);
-        console.log("Fetched campuses:", data);
       })
-      .catch((error) => {
-        console.error("Error fetching campuses:", error);
-      });
+      .catch((error) => console.error("Error fetching campuses:", error));
   }, []);
-
-  // Fetch types after campus is selected
-  useEffect(() => {
-    if (formData.campus) {
-      fetchTypes(formData.campus)
-        .then((data) => {
-          setTypes(data.types);
-          console.log("Fetched types:", data);
-        })
-        .catch((error) => {
-          console.error("Error fetching types:", error);
-        });
-    }
-  }, [formData.campus]);
-
-  // Fetch blocks after type is selected
-  useEffect(() => {
-    if (formData.campus && formData.type) {
-      fetch(`/api/blocks?campus=${formData.campus}&type=${formData.type}`)
-        .then((res) => res.json())
-        .then((data) => setBlocks(data));
-    }
-  }, [formData.type]);
-
-  // Fetch flats after block is selected
-  useEffect(() => {
-    if (formData.campus && formData.type && formData.block) {
-      fetch(
-        `/api/flats?campus=${formData.campus}&type=${formData.type}&block=${formData.block}`
-      )
-        .then((res) => res.json())
-        .then((data) => setFlats(data));
-    }
-  }, [formData.block]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    let updatedFormData = { ...formData, [name]: value };
 
     if (name === "campus") {
-      setFormData((prev) => ({ ...prev, type: "", block: "", flat: "" }));
-      setTypes([]);
-      setBlocks([]);
-      setFlats([]);
+      updatedFormData.type = "";
+      const selectedCampus = campuses.find((c) => c.name === value);
+      setTypes(selectedCampus?.types || []);
     }
-    if (name === "type") {
-      setFormData((prev) => ({ ...prev, block: "", flat: "" }));
-      setBlocks([]);
-      setFlats([]);
-    }
-    if (name === "block") {
-      setFormData((prev) => ({ ...prev, flat: "" }));
-      setFlats([]);
-    }
+
+    setFormData(updatedFormData);
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const validate = () => {
-    const requiredFields = [
+    const requiredFields: (keyof FlatFormData)[] = [
       "campus",
       "type",
       "block",
-      "flat",
+      "flatNo",
       "name",
       "designation",
       "division",
-      "occupationDate",
+      "date",
       "category",
       "change",
     ];
-    const newErrors: { [key: string]: string } = {};
+    const newErrors: Record<string, string> = {};
 
     requiredFields.forEach((field) => {
-      if (!formData[field as keyof typeof formData]) {
+      if (!formData[field]) {
         newErrors[field] = "This field is required";
       }
     });
@@ -125,33 +95,50 @@ const FlatForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setIsLoading(false);
       return;
     }
 
-    const flatNo = `${formData.block}-${formData.flat}`;
+    try {
+      const res = await fetch("/api/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    const payload = {
-      ...formData,
-      flatNo,
-    };
-
-    fetch("/api/flats", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }).then((res) => {
       if (res.ok) {
         alert("Flat details submitted successfully!");
-        // Optionally reset form here
+        setFormData({
+          campus: "",
+          type: "",
+          block: "",
+          flatNo: "",
+          name: "",
+          odlId: "",
+          designation: "",
+          division: "",
+          date: "",
+          category: "",
+          change: "",
+          remarks: "",
+        });
+        setTypes([]);
       } else {
         alert("Submission failed.");
       }
-    });
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Something went wrong!");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -159,7 +146,7 @@ const FlatForm = () => {
       onSubmit={handleSubmit}
       className="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-lg space-y-6"
     >
-      {/* Section 1: Location Selection */}
+      {/* Campus, Type, Block, FlatNo */}
       <fieldset>
         <legend className="text-lg font-semibold mb-4">
           🏢 Location Selection
@@ -176,12 +163,11 @@ const FlatForm = () => {
               className="w-full border rounded p-2"
             >
               <option value="">Select Campus</option>
-              {campuses?.length > 0 &&
-                campuses?.map((c) => (
-                  <option key={c._id} value={c._id}>
-                    {c.name}
-                  </option>
-                ))}
+              {campuses.map((c) => (
+                <option key={c._id} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
             </select>
             {errors.campus && (
               <p className="text-red-500 text-sm">{errors.campus}</p>
@@ -200,9 +186,9 @@ const FlatForm = () => {
               className="w-full border rounded p-2"
             >
               <option value="">Select Type</option>
-              {types.map((t) => (
-                <option key={t._id} value={t._id}>
-                  {t.name}
+              {types.map((t, i) => (
+                <option key={i} value={t}>
+                  {t}
                 </option>
               ))}
             </select>
@@ -215,20 +201,14 @@ const FlatForm = () => {
             <label>
               Block <span className="text-red-500">*</span>
             </label>
-            <select
+            <input
+              type="text"
               name="block"
               value={formData.block}
               onChange={handleChange}
-              disabled={!blocks.length}
+              placeholder="e.g. A"
               className="w-full border rounded p-2"
-            >
-              <option value="">Select Block</option>
-              {blocks.map((b) => (
-                <option key={b._id} value={b.name}>
-                  {b.name}
-                </option>
-              ))}
-            </select>
+            />
             {errors.block && (
               <p className="text-red-500 text-sm">{errors.block}</p>
             )}
@@ -236,30 +216,24 @@ const FlatForm = () => {
 
           <div>
             <label>
-              Flat <span className="text-red-500">*</span>
+              Flat No. <span className="text-red-500">*</span>
             </label>
-            <select
-              name="flat"
-              value={formData.flat}
+            <input
+              type="text"
+              name="flatNo"
+              value={formData.flatNo}
               onChange={handleChange}
-              disabled={!flats.length}
+              placeholder="e.g. 101 or A1"
               className="w-full border rounded p-2"
-            >
-              <option value="">Select Flat</option>
-              {flats.map((f) => (
-                <option key={f._id} value={f.name}>
-                  {f.name}
-                </option>
-              ))}
-            </select>
-            {errors.flat && (
-              <p className="text-red-500 text-sm">{errors.flat}</p>
+            />
+            {errors.flatNo && (
+              <p className="text-red-500 text-sm">{errors.flatNo}</p>
             )}
           </div>
         </div>
       </fieldset>
 
-      {/* Section 2: Personal Details */}
+      {/* Personal Details */}
       <fieldset>
         <legend className="text-lg font-semibold mb-4">
           👤 Personal Details
@@ -292,7 +266,7 @@ const FlatForm = () => {
         </div>
       </fieldset>
 
-      {/* Section 3: Employee Details */}
+      {/* Employee Details */}
       <fieldset>
         <legend className="text-lg font-semibold mb-4">
           💼 Employee Details
@@ -330,33 +304,29 @@ const FlatForm = () => {
 
           <div>
             <label>
-              Date of Occupation <span className="text-red-500">*</span>
+              Date of Occupation / Vacation{" "}
+              <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
-              name="occupationDate"
-              value={formData.occupationDate}
+              name="date"
+              value={formData.date}
               onChange={handleChange}
               className="w-full border rounded p-2"
             />
-            {errors.occupationDate && (
-              <p className="text-red-500 text-sm">{errors.occupationDate}</p>
+            {errors.date && (
+              <p className="text-red-500 text-sm">{errors.date}</p>
             )}
           </div>
 
           <div>
-            <label>
-              Category <span className="text-red-500">*</span>
-            </label>
+            <label>Category</label>
             <input
               name="category"
               value={formData.category}
               onChange={handleChange}
               className="w-full border rounded p-2"
             />
-            {errors.category && (
-              <p className="text-red-500 text-sm">{errors.category}</p>
-            )}
           </div>
 
           <div>
@@ -394,9 +364,9 @@ const FlatForm = () => {
       <div className="pt-4">
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed " 
         >
-          Submit Flat Details
+          {isLoading ? "Submitting..." : "Submit"}
         </button>
       </div>
     </form>

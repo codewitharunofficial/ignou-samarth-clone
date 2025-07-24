@@ -6,6 +6,7 @@ import FlatForm from "./AddFlatForm";
 import FlatList from "./FlatsList";
 import UpdateFlat from "./UpdateFlat";
 import { Button } from "@/components/ui/button";
+import AddFlatCard from "./AddFlatCard";
 
 const Main = () => {
   const pathname = usePathname();
@@ -26,7 +27,7 @@ const Main = () => {
           <div className="w-screen bg-white sm:shadow-sm p-4">
             <h1 className="text-xs font-bold">Dashboard</h1>
           </div>
-          <div className="flex flex-wrap items-center p-4">
+          <div className="flex flex-row gap-5 lg:flex-wrap items-center p-4">
             <Card />
           </div>
         </>
@@ -57,6 +58,12 @@ const Main = () => {
             onClick={() => download("pdf")}
           >
             Export Data As PDF
+          </Button>
+          <Button
+            className="sm:bg-blue-200 sm:hover:bg-blue-500 bg-blue-500 text-white py-1 px-2 rounded-md mb-4 cursor-pointer transition duration-200 m-2"
+            onClick={() => router.push("/add-flats")}
+          >
+            Add New Flat
           </Button>
           <FlatList />
         </div>

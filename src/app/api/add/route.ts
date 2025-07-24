@@ -9,7 +9,6 @@ export async function POST(req: Request) {
 
     const flat = await FlatDetail.create({
       ...body,
-      dateOfOccupation: new Date(body.dateOfOccupation),
     });
 
     return NextResponse.json({ success: true, flat });
