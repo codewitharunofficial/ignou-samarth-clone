@@ -75,13 +75,13 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden sm:flex items-center gap-4">
-          <li className="text-gray-200 hover:text-white text-sm cursor-default">
+          <li className="text-gray-200 hover:text-white text-sm cursor-pointer">
             Page Font Size: A - A A+
           </li>
-          <li className="text-gray-200 hover:text-white text-sm">
+          <li className="text-gray-200 hover:text-white text-sm cursor-pointer">
             {user?.userId || "admin"} - Executive (DP)
           </li>
-          <li className="text-gray-200 font-semibold text-sm">IGNOU</li>
+          <li className="text-gray-200 font-semibold text-sm cursor-pointer">IGNOU</li>
           <li
             ref={dropdownRef}
             className="relative text-gray-200 hover:text-white cursor-pointer text-sm"

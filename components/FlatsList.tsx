@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectTrigger,
@@ -198,7 +199,7 @@ const FlatList = () => {
             </Card>
           ))
         ) : loading ? (
-          <p className="text-center">Loading flats...</p>
+          <Progress className="w-[60%] self-center" value={loading ? 30 : 100} color="blue" />
         ) : (
           <p className="text-center">
             No flats found for the selected filters.
