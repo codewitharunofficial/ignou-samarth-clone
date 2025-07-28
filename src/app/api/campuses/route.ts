@@ -6,7 +6,6 @@ export async function GET(req: Request) {
   try {
     await connectToDatabase();
     const campuses = await Campus.find({});
-    console.log("Fetched campuses:", campuses);
     return NextResponse.json({ success: true, campuses });
   } catch (err) {
     console.error("Error fetching campuses:", err);

@@ -16,7 +16,6 @@ export async function PUT(request, { params }) {
     }
 
     const body = await request.json();
-    // console.log("body: ", body);
 
     // Enforce vacant logic
     if (body.vacant === true) {
@@ -33,8 +32,6 @@ export async function PUT(request, { params }) {
         runValidators: true,
       }
     );
-
-    // console.log("Updated flat: ", updated);
 
     if (!updated) {
       return NextResponse.json(

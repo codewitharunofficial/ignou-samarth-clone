@@ -3,7 +3,7 @@ import axios from "axios";
 export const fetchCampuses = async () => {
   try {
     const { data } = await axios.get("/api/campuses");
-    console.log(data);
+
     return data;
   } catch (error) {
     console.error("Error fetching campuses:", error);
@@ -14,7 +14,6 @@ export const fetchCampuses = async () => {
 export const fetchTypes = async (campusName: string) => {
   try {
     const { data } = await axios.get(`/api/types?campus=${campusName}`);
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching types:", error);
@@ -25,7 +24,6 @@ export const fetchTypes = async (campusName: string) => {
 export const fetchFilteredFlats = async (filters: any) => {
   try {
     const { data } = await axios.get("/api/flats", { params: filters });
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching filtered flats:", error);

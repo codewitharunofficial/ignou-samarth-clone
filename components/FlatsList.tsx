@@ -148,7 +148,7 @@ const FlatList = () => {
           </Select>
         </div>
         <Button
-          className="max-w-40 bg-blue-300 text-white py-1 px-2 rounded-md mt-4 cursor-pointer hover:bg-blue-600 transition duration-200"
+          className="max-w-40 bg-blue-300 text-white py-1 px-2 rounded-md mt-6 cursor-pointer hover:bg-blue-600 transition duration-200"
           disabled={page === totalPages || loading}
           onClick={() => {
             setFilters({ campus: "", type: "", block: "" });
@@ -160,7 +160,11 @@ const FlatList = () => {
       </div>
 
       {/* Flats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 ${
+          loading || flats.length === 0 ? "md:grid-cols-1" : "md:grid-cols-3"
+        } gap-4`}
+      >
         {flats.length ? (
           flats.map((flat: any) => (
             <Card key={flat._id} className="shadow-md">
