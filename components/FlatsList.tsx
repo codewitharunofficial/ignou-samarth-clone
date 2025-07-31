@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
+import SearchBar from "./Search";
 
 const FlatList = () => {
   const [flats, setFlats] = useState([]);
@@ -148,6 +149,9 @@ const FlatList = () => {
             </SelectContent>
           </Select>
         </div>
+        <div>
+          <SearchBar setFlats={setFlats} />
+        </div>
         <Button
           className="max-w-40 bg-blue-300 text-white py-1 px-2 rounded-md mt-6 cursor-pointer hover:bg-blue-600 transition duration-200"
           disabled={page === totalPages || loading}
@@ -199,7 +203,13 @@ const FlatList = () => {
             </Card>
           ))
         ) : loading ? (
-          <Progress className="w-[60%] self-center" value={loading ? 30 : 100} color="blue" />
+          <div className="flex will-change-auto self-center">
+            <Progress
+              className="w-[60%] self-center"
+              value={loading ? 30 : 100}
+              color="blue"
+            />
+          </div>
         ) : (
           <p className="text-center">
             No flats found for the selected filters.
