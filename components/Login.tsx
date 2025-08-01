@@ -27,7 +27,7 @@ const Login = () => {
 
       const isValid = await validateToken();
       if (isValid) {
-        router.push("/"); // token valid? go to home
+        router.push("/");
       } else {
         localStorage.removeItem("auth_token"); // remove invalid token
         setCheckingAuth(false); // show login form

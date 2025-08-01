@@ -16,8 +16,13 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import SearchBar from "./Search";
+import { User } from "@/types";
 
-const FlatList = () => {
+interface ListProps {
+  user?: User;
+}
+
+const FlatList = ({ user }: ListProps) => {
   const [flats, setFlats] = useState([]);
   const [filters, setFilters] = useState({ campus: "", type: "", block: "" });
   const [campuses, setCampuses] = useState(["MGRC", "AGVC", "JNU"]);
@@ -174,12 +179,14 @@ const FlatList = () => {
           flats.map((flat: any) => (
             <Card key={flat._id} className="shadow-md">
               <CardContent className="p-4 relative">
-                <button
-                  onClick={() => router.push(`/update-flat/${flat._id}`)}
-                  className="absolute top-4 right-3 text-white cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-full p-1 transition duration-200"
-                >
-                  <Pencil size={18} />
-                </button>
+                {user && user.role === "admin" && (
+                  <button
+                    onClick={() => router.push(`/update-flat/${flat._id}`)}
+                    className="absolute top-4 right-3 text-white cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-full p-1 transition duration-200"
+                  >
+                    <Pencil size={18} />
+                  </button>
+                )}
                 <h3 className="text-lg font-semibold">{flat.name}</h3>
                 <p className="text-sm text-muted-foreground">
                   {flat.designation}

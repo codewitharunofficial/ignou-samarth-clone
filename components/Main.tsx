@@ -6,9 +6,13 @@ import FlatForm from "./AddFlatForm";
 import FlatList from "./FlatsList";
 import UpdateFlat from "./UpdateFlat";
 import { Button } from "@/components/ui/button";
-import AddFlatCard from "./AddFlatCard";
+import { User } from "@/types";
 
-const Main = () => {
+interface MainProps {
+  user?: User;
+}
+
+const Main = ({ user }: MainProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -28,7 +32,7 @@ const Main = () => {
             <h1 className="text-xs font-bold">Dashboard</h1>
           </div>
           <div className="flex flex-row gap-5 lg:flex-wrap items-center p-4">
-            <Card />
+            <Card user={user} />
           </div>
         </>
       );
@@ -43,10 +47,19 @@ const Main = () => {
       );
     }
 
+    if (currentRoute === "/allotments") {
+      return (
+        <div className="w-screen bg-white p-4 sm:shadow pb-4">
+          {/* <h1 className="text-lg font-semibold mb-2">Flat Listings</h1> */}
+          <FlatList />
+        </div>
+      );
+    }
+
     if (currentRoute === "/flats") {
       return (
         <div className="w-screen bg-white p-4 sm:shadow pb-4">
-          <h1 className="text-lg font-semibold mb-2">Flat Listings</h1>
+          {/* <h1 className="text-lg font-semibold mb-2">Flat Listings</h1> */}
           <Button
             className="sm:bg-green-200 sm:hover:bg-green-500 bg-green-500 text-white py-1 px-2 rounded-md mb-4 cursor-pointer transition duration-200 m-2"
             onClick={() => download("excel")}

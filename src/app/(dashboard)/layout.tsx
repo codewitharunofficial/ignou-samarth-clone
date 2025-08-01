@@ -3,9 +3,7 @@
 
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
-import SideBar from "../../../components/SideBar";
 import SmallFooter from "../../../components/SmallFooter";
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
@@ -40,7 +38,7 @@ export default function DashboardLayout({
             color="#7e81f8"
           />
         )} */}
-        <div className="min-h-screen sm:px-4 pt-4">{children}</div>
+        <div className="min-h-screen sm:px-4 pt-4 shadow-sm">{children}</div>
         <SmallFooter />
       </main>
     </div>
