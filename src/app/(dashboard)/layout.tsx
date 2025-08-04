@@ -38,7 +38,7 @@ export default function DashboardLayout({
             color="#7e81f8"
           />
         )} */}
-        <div className="min-h-screen sm:px-4 pt-4 shadow-sm">{children}</div>
+        <div className="min-h-screen sm:px-4 pt-4">{children}</div>
         <SmallFooter />
       </main>
     </div>

@@ -17,6 +17,7 @@ import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import SearchBar from "./Search";
 import { User } from "@/types";
+import { getUserRole } from "@/utils/auth";
 
 interface ListProps {
   user?: User;
@@ -24,6 +25,7 @@ interface ListProps {
 
 const FlatList = ({ user }: ListProps) => {
   const [flats, setFlats] = useState([]);
+  const [role, setRole] = useState("");
   const [filters, setFilters] = useState({ campus: "", type: "", block: "" });
   const [campuses, setCampuses] = useState(["MGRC", "AGVC", "JNU"]);
   const [types, setTypes] = useState([
@@ -87,6 +89,13 @@ const FlatList = ({ user }: ListProps) => {
   }, [filters, page]);
 
   const totalPages = Math.ceil(total / 10);
+
+  useEffect(() => {
+    const role = getUserRole();
+    setRole(role);
+  }, []);
+
+  // console.log(user);
 
   return (
     <div className="sm:p-4 max-w-screen-xl sm:mx-auto pb-16">
@@ -179,7 +188,7 @@ const FlatList = ({ user }: ListProps) => {
           flats.map((flat: any) => (
             <Card key={flat._id} className="shadow-md">
               <CardContent className="p-4 relative">
-                {user && user.role === "admin" && (
+                {role && role === "admin" && (
                   <button
                     onClick={() => router.push(`/update-flat/${flat._id}`)}
                     className="absolute top-4 right-3 text-white cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-full p-1 transition duration-200"

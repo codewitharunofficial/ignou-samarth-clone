@@ -19,7 +19,7 @@ export const validateToken = async (): Promise<boolean> => {
 
 // utils/auth.ts
 export const login = async (userId: string, password: string) => {
-  const res = await axios.request({
+  const { data } = await axios.request({
     url: "/api/auth",
     method: "POST",
     headers: {
@@ -27,11 +27,20 @@ export const login = async (userId: string, password: string) => {
     },
     data: JSON.stringify({ userId, password }),
   });
-
-  const data = await res.data;
-  if (res.status === 200 && data.token) {
+  if (data.success && data.token) {
     localStorage.setItem("auth_token", data.token);
-    return { success: true };
+    localStorage.setItem("user_info", JSON.stringify(data.user));
+    return data;
   }
-  return { success: false, error: data.error };
+  return data;
+};
+
+export const getUserRole = (): string => {
+  const data = localStorage.getItem("user_info");
+  if (data) {
+    const user = JSON.parse(data);
+    return user.role;
+  } else {
+    return "Error";
+  }
 };

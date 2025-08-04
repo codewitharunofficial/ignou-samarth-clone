@@ -12,8 +12,10 @@ export default function HomePage() {
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
     const user = localStorage.getItem("user_info");
+
     if (user) {
       const userData = JSON.parse(user);
+      console.log("User Data: ", userData);
       setUser({ userId: userData?.userId, role: userData?.role });
     }
     // console.log(user);

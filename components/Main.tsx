@@ -24,6 +24,8 @@ const Main = ({ user }: MainProps) => {
     window.open(`/api/export-data?format=${format}`, "_blank");
   };
 
+  // console.log("User In Main: ", user);
+
   const renderContent = () => {
     if (currentRoute === "/") {
       return (
@@ -51,7 +53,7 @@ const Main = ({ user }: MainProps) => {
       return (
         <div className="w-screen bg-white p-4 sm:shadow pb-4">
           {/* <h1 className="text-lg font-semibold mb-2">Flat Listings</h1> */}
-          <FlatList />
+          <FlatList user={user} />
         </div>
       );
     }
@@ -78,7 +80,7 @@ const Main = ({ user }: MainProps) => {
           >
             Add New Flat
           </Button>
-          <FlatList />
+          <FlatList user={user} />
         </div>
       );
     }

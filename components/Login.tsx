@@ -39,12 +39,8 @@ const Login = () => {
 
   const handleLogin = async () => {
     setIsLoggingin(true);
-    const success = await login(userId, password);
-    if (success) {
-      localStorage.setItem(
-        "user_info",
-        JSON.stringify({ userId, role: "Admin" })
-      );
+    const data = await login(userId, password);
+    if (data.success) {
       setIsLoggingin(false);
       router.push("/");
     } else {

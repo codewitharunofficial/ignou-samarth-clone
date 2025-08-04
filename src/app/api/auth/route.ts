@@ -30,5 +30,5 @@ export async function POST(req: Request) {
     { expiresIn: "24h" }
   );
 
-  return NextResponse.json({ success: true, token });
+  return NextResponse.json({ success: true, token: token, user: user });
 }
