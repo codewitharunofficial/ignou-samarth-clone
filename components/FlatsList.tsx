@@ -150,6 +150,7 @@ const FlatList = ({ user }: ListProps) => {
             onValueChange={(val) =>
               setFilters((prev) => ({ ...prev, block: val }))
             }
+            disabled={filters.campus === "AGVC" || filters.campus === "JNU"}
           >
             <SelectTrigger className="cursor-pointer">
               <SelectValue placeholder="Select Block" />
@@ -221,7 +222,7 @@ const FlatList = ({ user }: ListProps) => {
         ) : loading ? (
           <div className="flex will-change-auto self-center">
             <Progress
-              className="w-[60%] self-center"
+              className="w-full self-center"
               value={loading ? 30 : 100}
               color="blue"
             />

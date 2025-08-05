@@ -226,12 +226,11 @@ const UpdateFlat = () => {
             className="cursor-pointer"
             id="date"
             type="date"
-            value={date?.split("-").reverse().join("-")}
+            value={date}
             onChange={(e) => {
               setDate(e.target.value);
             }}
-            disabled={vacant}
-            required={!vacant}
+            required={true}
             placeholder={date}
           />
         </div>

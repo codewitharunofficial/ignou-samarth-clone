@@ -22,6 +22,7 @@ export async function PUT(request, { params }) {
       body.name = "";
       body.designation = "";
       body.odlId = "";
+      body.vacant = true
     }
 
     const updated = await Flat.findByIdAndUpdate(
@@ -29,7 +30,6 @@ export async function PUT(request, { params }) {
       { ...body, date: body.date?.split("-").reverse().join("-") },
       {
         new: true,
-        runValidators: true,
       }
     );
 
