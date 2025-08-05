@@ -168,7 +168,7 @@ const FlatList = ({ user }: ListProps) => {
         </div>
         <Button
           className="max-w-40 bg-blue-300 text-white py-1 px-2 rounded-md mt-6 cursor-pointer hover:bg-blue-600 transition duration-200"
-          disabled={page === totalPages || loading}
+          disabled={loading}
           onClick={() => {
             setFilters({ campus: "", type: "", block: "" });
             setPage(1);
