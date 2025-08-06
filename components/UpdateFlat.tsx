@@ -22,6 +22,7 @@ const UpdateFlat = () => {
         const data = res.data.flat;
         setFlat(data);
         setVacant(data.vacant || false);
+        // console.log(data);
         setDate(data.date || "");
       } catch (error) {
         console.error("Failed to fetch flat:", error);
@@ -36,15 +37,15 @@ const UpdateFlat = () => {
   };
 
   const handleVacantToggle = () => {
-    const newVacant = !vacant;
-    setVacant(newVacant);
+    setVacant(!vacant);
     setFlat((prev: any) => ({
       ...prev,
-      name: newVacant ? "" : prev.name || "",
-      designation: newVacant ? "" : prev.designation || "",
-      odlId: newVacant ? "" : prev.odlId || "",
+      name: vacant ? "" : prev.name || "",
+      designation: vacant ? "" : prev.designation || "",
+      odlId: vacant ? "" : prev.odlId || "",
+      division: vacant ? "" : prev.division || "",
+      change: vacant ? "" : prev.change || "",
     }));
-    if (newVacant) setDate("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,7 +61,7 @@ const UpdateFlat = () => {
       division: flat.division || "",
       flatNo: flat.flatNo || "",
       block: flat.block || "",
-      date: vacant ? "" : date || "",
+      date: date || "",
       category: flat.category || "",
       change: flat.change || "",
       remarks: flat.remarks || "",
@@ -72,13 +73,23 @@ const UpdateFlat = () => {
     try {
       const { data } = await axios.put(`/api/update-flat/${id}`, updatedData);
       if (data?.success) {
-        setFlat(data?.updated);
+        setFlat(data?.flat);
         alert("Flat updated successfully!");
       }
     } catch (err) {
       console.error("Update failed:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const formatDate = (date: string) => {
+    console.log(date);
+    const splittedDate = date.split("-");
+    if (splittedDate[splittedDate.length - 1].length > 2) {
+      return splittedDate.reverse().join("-");
+    } else {
+      return date;
     }
   };
 
@@ -226,7 +237,7 @@ const UpdateFlat = () => {
             className="cursor-pointer"
             id="date"
             type="date"
-            value={date}
+            value={formatDate(date)}
             onChange={(e) => {
               setDate(e.target.value);
             }}

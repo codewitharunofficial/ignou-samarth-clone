@@ -17,17 +17,10 @@ export async function PUT(request, { params }) {
 
     const body = await request.json();
 
-    // Enforce vacant logic
-    if (body.vacant === true) {
-      body.name = "";
-      body.designation = "";
-      body.odlId = "";
-      body.vacant = true
-    }
-
+    console.log("Body: ", body);
     const updated = await Flat.findByIdAndUpdate(
       { _id: id },
-      { ...body, date: body.date?.split("-").reverse().join("-") },
+      { ...body, date: body.date.split("-").reverse().join("-") },
       {
         new: true,
       }
@@ -39,6 +32,7 @@ export async function PUT(request, { params }) {
         { status: 404 }
       );
     }
+    console.log("Updated: ", updated);
 
     return NextResponse.json({ success: true, flat: updated });
   } catch (err) {

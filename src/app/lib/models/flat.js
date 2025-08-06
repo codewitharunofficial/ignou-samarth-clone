@@ -56,6 +56,16 @@ const flatSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    vacant: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    mobile_no: {
+      type: String,
+      required: false,
+      default: ""
+    }
   },
   { timestamps: true }
 );

@@ -95,7 +95,7 @@ const FlatList = ({ user }: ListProps) => {
     setRole(role);
   }, []);
 
-  // console.log(user);
+  console.log(flats);
 
   return (
     <div className="sm:p-4 max-w-screen-xl sm:mx-auto pb-16">
