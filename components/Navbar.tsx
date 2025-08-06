@@ -55,10 +55,7 @@ const Navbar = () => {
             src="./samarth-logo-nav.svg"
             alt="Samarth Logo"
           />
-          <Link
-            href="/dashboard"
-            className="text-gray-200 hover:text-white text-sm"
-          >
+          <Link href="/" className="text-gray-200 hover:text-white text-sm">
             / Dashboard
           </Link>
         </div>
@@ -81,7 +78,9 @@ const Navbar = () => {
           <li className="text-gray-200 hover:text-white text-sm cursor-pointer">
             {user?.userId || "admin"} - Executive (DP)
           </li>
-          <li className="text-gray-200 font-semibold text-sm cursor-pointer">IGNOU</li>
+          <li className="text-gray-200 font-semibold text-sm cursor-pointer">
+            IGNOU
+          </li>
           <li
             ref={dropdownRef}
             className="relative text-gray-200 hover:text-white cursor-pointer text-sm"
