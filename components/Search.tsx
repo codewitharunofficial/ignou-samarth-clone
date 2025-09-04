@@ -6,7 +6,7 @@ import clsx from "clsx";
 import axios from "axios";
 
 type SearchProps = {
-  setFlats: React.Dispatch<React.SetStateAction<never[]>>;
+  setFlats: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 export default function SearchBar({ setFlats }: SearchProps) {
@@ -50,8 +50,7 @@ export default function SearchBar({ setFlats }: SearchProps) {
     <div
       ref={containerRef}
       className={clsx(
-        `flex items-center border border-blue-300 rounded-full px-2 transition-all duration-300 ${
-          expanded ? "mt-6" : "mt-8"
+        `flex items-center border border-blue-300 rounded-full px-2 transition-all duration-300 ${expanded ? "mt-6" : "mt-8"
         } py-2`,
         expanded
           ? "w-64 border-gray-300 bg-white shadow-sm"

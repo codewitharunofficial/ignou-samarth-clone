@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -24,11 +23,11 @@ interface ListProps {
 }
 
 const FlatList = ({ user }: ListProps) => {
-  const [flats, setFlats] = useState([]);
+  const [flats, setFlats] = useState<any[]>([]);
   const [role, setRole] = useState("");
   const [filters, setFilters] = useState({ campus: "", type: "", block: "" });
-  const [campuses, setCampuses] = useState(["MGRC", "AGVC", "JNU"]);
-  const [types, setTypes] = useState([
+  const [campuses] = useState(["MGRC", "AGVC", "JNU"]);
+  const [types] = useState([
     "Type-I",
     "Type-II",
     "Type-III Non-Academic",
@@ -39,7 +38,7 @@ const FlatList = ({ user }: ListProps) => {
     "Type-V MGRC",
     "Type-V AGVC",
   ]);
-  const [blocks, setBlocks] = useState([
+  const [blocks] = useState([
     "A",
     "B",
     "C",
@@ -81,7 +80,7 @@ const FlatList = ({ user }: ListProps) => {
   };
 
   useEffect(() => {
-    setPage(1); // Reset to first page on filter change
+    setPage(1);
   }, [filters]);
 
   useEffect(() => {
@@ -94,8 +93,6 @@ const FlatList = ({ user }: ListProps) => {
     const role = getUserRole();
     setRole(role);
   }, []);
-
-  console.log(flats);
 
   return (
     <div className="sm:p-4 max-w-screen-xl sm:mx-auto pb-16">
@@ -179,65 +176,63 @@ const FlatList = ({ user }: ListProps) => {
         </Button>
       </div>
 
-      {/* Flats */}
-      <div
-        className={`grid grid-cols-1 sm:grid-cols-2 ${
-          loading || flats.length === 0 ? "md:grid-cols-1" : "md:grid-cols-3"
-        } gap-4`}
-      >
-        {flats.length ? (
-          flats.map((flat: any) => (
-            <Card key={flat._id} className="shadow-md">
-              <CardContent className="p-4 relative">
-                {role && role === "admin" && (
-                  <button
-                    onClick={() => router.push(`/update-flat/${flat._id}`)}
-                    className="absolute top-4 right-3 text-white cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-full p-1 transition duration-200"
-                  >
-                    <Pencil size={18} />
-                  </button>
-                )}
-                <h3 className="text-lg font-semibold">{flat.name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {flat.designation}
-                </p>
-                <p className="mt-2">
-                  <strong>Campus:</strong> {flat.campus}
-                </p>
-                <p>
-                  <strong>Flat:</strong> {flat.flatNo}
-                </p>
-                <p>
-                  <strong>Type:</strong> {flat.type}
-                </p>
-                <p>
-                  <strong>Block:</strong> {flat.block || "NA"}
-                </p>
-                <p>
-                  <strong>Vacant:</strong> {flat.vacant ? "Yes" : "No"}
-                </p>
-              </CardContent>
-            </Card>
-          ))
-        ) : loading ? (
-          <div className="flex will-change-auto self-center">
-            <Progress
-              className="w-full self-center"
-              value={loading ? 30 : 100}
-              color="blue"
-            />
-          </div>
-        ) : (
-          <p className="text-center">
-            No flats found for the selected filters.
-          </p>
-        )}
-      </div>
+      {/* Flats Table */}
+      {loading ? (
+        <div className="flex justify-center items-center">
+          <Progress className="w-full" value={30} />
+        </div>
+      ) : flats.length > 0 ? (
+        <div className="overflow-x-auto rounded-lg shadow">
+          <table className="min-w-full border border-gray-200 text-sm">
+            <thead className="bg-purple-300 text-left">
+              <tr>
+                <th className="px-4 py-2 border-b">Name</th>
+                <th className="px-4 py-2 border-b">Designation</th>
+                <th className="px-4 py-2 border-b">Campus</th>
+                <th className="px-4 py-2 border-b">Flat No</th>
+                <th className="px-4 py-2 border-b">Type</th>
+                <th className="px-4 py-2 border-b">Block</th>
+                <th className="px-4 py-2 border-b">Vacant</th>
+                {role === "admin" && <th className="px-4 py-2 border-b">Action</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {flats.map((flat) => (
+                <tr key={flat._id} className="hover:bg-gray-100">
+                  <td className="px-4 py-2 border-b">{flat.name}</td>
+                  <td className="px-4 py-2 border-b">{flat.designation}</td>
+                  <td className="px-4 py-2 border-b">{flat.campus}</td>
+                  <td className="px-4 py-2 border-b">{flat.flatNo}</td>
+                  <td className="px-4 py-2 border-b">{flat.type}</td>
+                  <td className="px-4 py-2 border-b">{flat.block || "NA"}</td>
+                  <td className="px-4 py-2 border-b">
+                    {flat.vacant ? "Yes" : "No"}
+                  </td>
+                  {role === "admin" && (
+                    <td className="px-4 py-2 border-b">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="cursor-pointer"
+                        onClick={() => router.push(`/update-flat/${flat._id}`)}
+                      >
+                        <Pencil size={16} className="mr-1" /> Edit
+                      </Button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="text-center">No flats found for the selected filters.</p>
+      )}
 
-      {/* Pagination Controls */}
+      {/* Pagination */}
       <div className="flex justify-center items-center gap-4 mt-6">
         <Button
-          className="bg-blue-500 text-white py-1 px-2 rounded-md mt-4 cursor-pointer hover:bg-blue-600 transition duration-200 mb-5"
+          className="bg-blue-500 text-white py-1 px-2 rounded-md cursor-pointer hover:bg-blue-600 transition duration-200"
           disabled={page === 1 || loading}
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
         >
@@ -247,7 +242,7 @@ const FlatList = ({ user }: ListProps) => {
           Page {page} of {totalPages || 1}
         </span>
         <Button
-          className="bg-blue-500 text-white py-1 px-2 rounded-md mt-4 cursor-pointer hover:bg-blue-600 transition duration-200 mb-5"
+          className="bg-blue-500 text-white py-1 px-2 rounded-md cursor-pointer hover:bg-blue-600 transition duration-200"
           disabled={page === totalPages || loading}
           onClick={() => setPage((prev) => prev + 1)}
         >
